@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+
+    <style>
+      body { font-family: 'Bai Jamjuree', sans-serif; }
+    </style>
+  </head>
+
+  <body class="h-full flex flex-col bg-gray-800 text-white">
+    <nav class="bg-gray-900 p-6 text-center shadow-2xl">
+      <h1 class="text-xl font-medium">MOCK TURNBASED GAME</h1>
+    </nav>
+
+    <div class="flex-1">
+      <div id="startScene" class="w-full h-full flex items-center justify-center hidden">
+        <button
+          type="button"
+          class="bg-gray-100 rounded py-5 px-8 text-black text-3xl font-bold flex flex-col items-center justify-center cursor-pointer transition duration-300 hover:opacity-50"
+          onclick="game.onStart()"
+        >
+          <span>START</span>
+					<span class="text-6xl font-black">GAME</span>
+        </button>
+      </div>
+
+      <div id="setGameScene" class="hidden">
+        <form id="setGameForm" onsubmit="event.preventDefault(); game.onSetGame();">
+          <div class="mb-3 px-3 pt-3">
+            <label for="exampleInputEmail1" class="form-label"
+              >Set Assets</label
+            >
+            <input type="text" class="form-control" id="assets" name="assets" required />
+          </div>
+          <div class="mb-3 px-3">
+            <label for="exampleInputPassword1" class="form-label"
+              >Positions</label
+            >
+            <input type="text" class="form-control" id="positions" name="positions" required />
+          </div>
+          <button
+            id="go"
+            type="submit"
+            class="btn btn-primary mb-3"
+          >
+            Go
+          </button>
+        </form>
+      </div>
+
+      <div id="attackScene" class="hidden">
+        <form id="attackForm" onsubmit="event.preventDefault(); game.onAttack();">
+          <div class="row">
+            <!-- <div class="col">
+              <div class="row m-3">
+                <div class="col-0">
+                  <label for="exampleInputEmail1" class="form-label"
+                    >Select Asset:</label
+                  >
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" id="selectAsset" name="selectAsset"/>
+                </div>
+              </div> 
+            </div>-->
+            <!-- <div class="col">
+              <div class="row m-3">
+                <div class="col-0">
+                  <label for="exampleInputEmail1" class="form-label"
+                    >Attack Position:</label
+                  >
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" id="attackPosition" name="attackPosition"/>
+                </div>
+              </div>
+            </div> -->
+            <div class="col m-3">
+              <button id="attackBtn" type="submit" class="btn btn-primary">
+                Attack
+              </button>
+            </div>
+          </div>
+        </form>
+        <div id="allRobot" class="flex max-w-6xl bg-black bg-opacity-10 rounded-2xl mx-auto p-5"></div>
+      </div>
+    </div>
+
+		<!-- Lib -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"
+      integrity="sha512-iKDtgDyTHjAitUDdLljGhenhPwrbBfqTKWO1mkhSFH3A7blITC9MhYon6SjnMhp4o0rADGw9yAC6EW4t5a4K3g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+      integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+
+		<!-- App -->
+    <script src="./src/js/new-app.js"></script>
+  </body>
+</html>

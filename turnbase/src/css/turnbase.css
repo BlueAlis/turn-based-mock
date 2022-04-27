@@ -1,0 +1,69 @@
+body {
+    background-color: black;
+}
+
+#butStart {
+    width: 30%;
+    margin-top: 15%;
+    margin-left: 525px;
+    padding: 50px;
+    font-size: 30px;
+    /* display: none; */
+}
+
+#setGame {
+    width: 30%;
+    margin: auto;
+    margin-top: 150px;
+    background-color: #fff;
+    border: 5px solid grey;
+    border-radius: 10px;
+    display: none;
+}
+
+#go {
+    margin-left: 120px;
+    width: 200px;
+}
+
+#attack {
+    color: #fff;
+    display: none;
+}
+
+#attackBtn {
+    width: 50%;
+}
+
+#titles {
+    color: #fff;
+    width: 100%;
+    text-align: center;
+}
+
+.carddff {
+    box-shadow: 0 4px 8px 0 rgba(121, 121, 121, 0.842);
+    transition: 0.3s;
+    width: 40%;
+    height: 100px;
+    border-radius: 5px;
+    background-color: rgb(255, 255, 255);
+    color: black;
+    margin-left: 200px;
+  }
+  
+.carddff:hover {
+    box-shadow: 0 8px 16px 0 rgb(255, 255, 255);
+  }
+  
+img {
+    border-radius: 5px 5px 0 0;
+}
+  
+  .main {
+    padding: 2px 16px;
+    margin: 5px;
+  }
+ p {
+    margin: 0;
+ }
