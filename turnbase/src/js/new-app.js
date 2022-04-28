@@ -20,14 +20,14 @@ let attackPosition = ''
 
 let turnStateSort = [];
 
-// for (var id in turnStateMock.body) {
-//     turnStateSort.push([id, turnStateMock.body[id]]);
-// }
-// turnStateSort.sort(function(a, b) {
-//     return a[1] - b[1];
-// });
+for (var id in turnStateMock.body) {
+    turnStateSort.push([id, turnStateMock.body[id]]);
+}
+turnStateSort.sort(function(a, b) {
+    return a[1] - b[1];
+});
 
-// console.log(turnStateSort[0][0])
+console.log(turnStateSort[1][1])
 
 // GAME CLASSES
 class Game {
@@ -219,15 +219,39 @@ class Game {
 					case STATE.turnState:
 
 						turnStateSort = []
-
+						let count = 0
+						let i = 0;
+						let check = 1000;
 						for (var id in turnStateMock.body) {
+							
+							//console.log('speed ' + obj.body[id])
 							turnStateSort.push([id, obj.body[id]]);
+							check = obj.body[id]
+							
+							if(check == 0){
+									count++
+									console.log(count);
+							}
+							i++
 						}
+
+						console.log(turnStateMock.body);
+
 						turnStateSort.sort(function(a, b) {
 							return a[1] - b[1];
 						});
+						console.log(turnStateSort);
 
-						console.log(turnStateSort)
+						if(count == 2){
+							turnStateSort.shift()
+						}
+						let temp = turnStateSort[0]
+						turnStateSort.shift()
+						
+						turnStateSort.reverse()
+						turnStateSort.unshift(temp)
+
+						console.log(temp)
 
 						game.renderTurnState()
 						break;
