@@ -1,4 +1,4 @@
-const TOKEN = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJqd3RcIjpcIlwiLFwiYXV0aHNcIjpbXCJ1c2VyXCJdLFwid2F4QWRkcmVzc1wiOlwiYmx1ZWFsaXN6enp6XCJ9IiwiZXhwIjoxNjUxMDY4OTgzLCJpYXQiOjE2NTEwNTA5ODN9.yIK2unfwNM3YQ6pAfhFd4nlvXg88okBp6bVyl8mRzOITpvvrwNEsu5SGbIrHqDvd_s2U-g7Y7G2LY4-_DA0hag"
+const TOKEN = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJqd3RcIjpcIlwiLFwiYXV0aHNcIjpbXCJ1c2VyXCJdLFwid2F4QWRkcmVzc1wiOlwiYmx1ZWFsaXN6enp6XCJ9IiwiZXhwIjoxNjUxMTY1NjU3LCJpYXQiOjE2NTExNDc2NTd9.Ky5fd79tQANIbVP6Sv47wzNOM3zG2tXRNqnAITeJkxR5BGkOOJYtAtM7Ti0-eM6cVFKWv7hAa1pou79k-EdQ7Q"
 const GAME_SCENE = {
 	start: 'startScene',
 	set: 'setGameScene',
@@ -12,9 +12,23 @@ const STATE = {
 }
 
 //const MOCK = {"subject":"turnbased-state","body":{"id":55546,"currentTurn":null,"isGameOver":false,"isBotGame":true,"gameAssets":[{"assetId":2099526508971,"position":"D1","speed":80,"hp":400,"team":"B","users":"BOT"},{"assetId":2099526508973,"position":"C1","speed":60,"hp":400,"team":"B","users":"BOT"},{"assetId":2099526508972,"position":"D2","speed":70,"hp":400,"team":"A","users":"bluealiszzzz"},{"assetId":2099526508974,"position":"C2","speed":50,"hp":400,"team":"A","users":"bluealiszzzz"},{"assetId":2099528452868,"position":"B1","speed":40,"hp":400,"team":"B","users":"BOT"},{"assetId":2099528452869,"position":"B2","speed":30,"hp":400,"team":"A","users":"bluealiszzzz"},{"assetId":2099528452871,"position":"A2","speed":10,"hp":400,"team":"A","users":"bluealiszzzz"},{"assetId":2099528452870,"position":"A1","speed":20,"hp":400,"team":"B","users":"BOT"}]}}
+const turnStateMock = {"subject":"turnbased-turn-state","body":{"2099528452870":30,"2099528452871":15,"2099528452868":60,"2099526508971":0,"2099528452869":45,"2099526508972":0,"2099526508973":85,"2099526508974":70}}
+let testTurnState = {"body" : ""}
 let testState = {"subject" : "wait"}
 let playerAssetId = 0;
 let attackPosition = ''
+
+let turnStateSort = [];
+
+// for (var id in turnStateMock.body) {
+//     turnStateSort.push([id, turnStateMock.body[id]]);
+// }
+// turnStateSort.sort(function(a, b) {
+//     return a[1] - b[1];
+// });
+
+// console.log(turnStateSort[0][0])
+
 // GAME CLASSES
 class Game {
   constructor() {
@@ -122,6 +136,24 @@ class Game {
 		</div>`
 	}
 
+	renderTemplateRobotTurn(id,turn){
+		return `
+		<div class="flex flex-col items-center justify-start flex-1 bg-gray-100 text-black rounded-xl">
+			<p> ${turn} </p>
+			<p> ${id} </p>
+	  	</div>`
+	}
+
+	renderTurnState() {
+		const robotTurnState = document.getElementById('turnState')
+		let allTemplate = ``
+
+		turnStateSort.forEach((id,turn) => {
+			allTemplate += this.renderTemplateRobotTurn(id,turn)
+		})
+		robotTurnState.innerHTML = allTemplate
+	}
+
 	// Render Robots
 	renderRobots() {
 		const gameAssets = _.sortBy(testState.body.gameAssets, 'team')
@@ -178,11 +210,28 @@ class Game {
 						testState = obj;
 						//console.log(testState)
 						game.renderRobots()
+						//game.renderTurnState()
 						break;
 					case STATE.playerTurn:
 						let playerObj = JSON.parse(JSON.parse(JSON.parse(greeting.body).payload).body)
 						playerAssetId = playerObj.assetId
 						break;
+					case STATE.turnState:
+
+						turnStateSort = []
+
+						for (var id in turnStateMock.body) {
+							turnStateSort.push([id, obj.body[id]]);
+						}
+						turnStateSort.sort(function(a, b) {
+							return a[1] - b[1];
+						});
+
+						console.log(turnStateSort)
+
+						game.renderTurnState()
+						break;
+
 				}
 		})
 	}
