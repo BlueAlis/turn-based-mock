@@ -1,4 +1,4 @@
-const TOKEN = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJqd3RcIjpcIlwiLFwiYXV0aHNcIjpbXCJ1c2VyXCJdLFwid2F4QWRkcmVzc1wiOlwiYmx1ZWFsaXN6enp6XCJ9IiwiZXhwIjoxNjUxMTY1NjU3LCJpYXQiOjE2NTExNDc2NTd9.Ky5fd79tQANIbVP6Sv47wzNOM3zG2tXRNqnAITeJkxR5BGkOOJYtAtM7Ti0-eM6cVFKWv7hAa1pou79k-EdQ7Q"
+const TOKEN = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJqd3RcIjpcIlwiLFwiYXV0aHNcIjpbXCJ1c2VyXCJdLFwid2F4QWRkcmVzc1wiOlwiYmx1ZWFsaXN6enp6XCJ9IiwiZXhwIjoxNjUxMjM2Mjg2LCJpYXQiOjE2NTEyMTgyODZ9.mqF_3OyPEjIrl0NlfUp2JOX6zPdrdPFq2HxINxc0t71Kuuv2-U2zuIqHI0_uWc7aA6pKNwF5wzuM3tbthDDiZg"
 const GAME_SCENE = {
 	start: 'startScene',
 	set: 'setGameScene',
@@ -222,7 +222,7 @@ class Game {
 						let count = 0
 						let i = 0;
 						let check = 1000;
-						for (var id in turnStateMock.body) {
+						for (var id in obj.body) {
 							
 							//console.log('speed ' + obj.body[id])
 							turnStateSort.push([id, obj.body[id]]);
@@ -235,7 +235,7 @@ class Game {
 							i++
 						}
 
-						console.log(turnStateMock.body);
+						console.log(obj.body);
 
 						turnStateSort.sort(function(a, b) {
 							return a[1] - b[1];

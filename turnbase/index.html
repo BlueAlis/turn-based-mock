@@ -30,63 +30,31 @@
         </button>
       </div>
 
-      <div id="setGameScene" class="hidden">
-        <form id="setGameForm" onsubmit="event.preventDefault(); game.onSetGame();">
-          <div class="mb-3 px-3 pt-3">
-            <label for="exampleInputEmail1" class="form-label"
-              >Set Assets</label
-            >
-            <input type="text" class="form-control" id="assets" name="assets" required />
-          </div>
-          <div class="mb-3 px-3">
-            <label for="exampleInputPassword1" class="form-label"
-              >Positions</label
-            >
-            <input type="text" class="form-control" id="positions" name="positions" required />
-          </div>
-          <button
-            id="go"
-            type="submit"
-            class="btn btn-primary mb-3"
-          >
-            Go
-          </button>
-        </form>
+      <div id="setGameScene" class="w-full h-full flex items-center justify-center hidden">
+        <div class="w-full max-w-xs">
+          <form id="setGameForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onsubmit="event.preventDefault(); game.onSetGame();">
+            <div class="mb-4">
+              <label for="exampleInputEmail1" class="form-label block text-gray-700 text-sm font-bold mb-2">Set Assets</label>
+              <input type="text" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="assets" name="assets" required />
+            </div>
+            <div class="mb-6">
+              <label for="exampleInputPassword1" class="form-label block text-gray-700 text-sm font-bold mb-2">Positions</label>
+              <input type="text" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="positions" name="positions" required />
+            </div>
+            <div class="flex items-center justify-center">
+              <button id="go" type="submit" class="bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Go
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
 
       <div id="attackScene" class="hidden">
-        <form id="attackForm" onsubmit="event.preventDefault(); game.onAttack();">
-          <div class="row">
-            <!-- <div class="col">
-              <div class="row m-3">
-                <div class="col-0">
-                  <label for="exampleInputEmail1" class="form-label"
-                    >Select Asset:</label
-                  >
-                </div>
-                <div class="col">
-                  <input type="text" class="form-control" id="selectAsset" name="selectAsset"/>
-                </div>
-              </div> 
-            </div>-->
-            <!-- <div class="col">
-              <div class="row m-3">
-                <div class="col-0">
-                  <label for="exampleInputEmail1" class="form-label"
-                    >Attack Position:</label
-                  >
-                </div>
-                <div class="col">
-                  <input type="text" class="form-control" id="attackPosition" name="attackPosition"/>
-                </div>
-              </div>
-            </div> -->
-            <div class="col m-3">
-              <button id="attackBtn" type="submit" class="btn btn-primary">
-                Attack
-              </button>
-            </div>
-          </div>
+        <form id="attackForm" class="flex justify-center my-2" onsubmit="event.preventDefault(); game.onAttack();">
+          <button id="attackBtn" type="submit" class="bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Attack
+          </button>
         </form>
         <div id="allRobot" class="flex max-w-6xl bg-black bg-opacity-10 rounded-2xl mx-auto p-5"></div>
         <div id="turnState" class="flex max-w-6xl bg-black bg-opacity-10 rounded-2xl mx-auto p-5 my-5 space-x-2"></div>
