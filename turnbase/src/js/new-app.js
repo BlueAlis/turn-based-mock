@@ -1,17 +1,18 @@
-const TOKEN = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJqd3RcIjpcIlwiLFwiYXV0aHNcIjpbXCJ1c2VyXCJdLFwid2F4QWRkcmVzc1wiOlwiYmx1ZWFsaXN6enp6XCJ9IiwiZXhwIjoxNjUxMjM2Mjg2LCJpYXQiOjE2NTEyMTgyODZ9.mqF_3OyPEjIrl0NlfUp2JOX6zPdrdPFq2HxINxc0t71Kuuv2-U2zuIqHI0_uWc7aA6pKNwF5wzuM3tbthDDiZg"
+const TOKEN = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJqd3RcIjpcIlwiLFwiYXV0aHNcIjpbXCJ1c2VyXCJdLFwid2F4QWRkcmVzc1wiOlwiYmx1ZWFsaXN6enp6XCJ9IiwiZXhwIjoxNjUxNTI4ODY0LCJpYXQiOjE2NTE1MTA4NjR9.BhpUfCUMhHqFF2RIIkkex4L9vHjxzsb6uqSYF6fO6dl1BR_I9fnrmcS7gw23IrOxDaWvLTdXbxPVlT09cmzoQQ"
 const GAME_SCENE = {
 	start: 'startScene',
 	set: 'setGameScene',
-	attack: 'attackScene'
+	attack: 'attackScene',
+	end: 'endScene'
 }
 const STATE = {
 	state: 'turnbased-state',
 	turnState: 'turnbased-turn-state',
 	actionAttack: 'turnbased-action-attack',
-	playerTurn: 'turnbased-player-turn'
+	playerTurn: 'turnbased-player-turn',
 }
 
-//const MOCK = {"subject":"turnbased-state","body":{"id":55546,"currentTurn":null,"isGameOver":false,"isBotGame":true,"gameAssets":[{"assetId":2099526508971,"position":"D1","speed":80,"hp":400,"team":"B","users":"BOT"},{"assetId":2099526508973,"position":"C1","speed":60,"hp":400,"team":"B","users":"BOT"},{"assetId":2099526508972,"position":"D2","speed":70,"hp":400,"team":"A","users":"bluealiszzzz"},{"assetId":2099526508974,"position":"C2","speed":50,"hp":400,"team":"A","users":"bluealiszzzz"},{"assetId":2099528452868,"position":"B1","speed":40,"hp":400,"team":"B","users":"BOT"},{"assetId":2099528452869,"position":"B2","speed":30,"hp":400,"team":"A","users":"bluealiszzzz"},{"assetId":2099528452871,"position":"A2","speed":10,"hp":400,"team":"A","users":"bluealiszzzz"},{"assetId":2099528452870,"position":"A1","speed":20,"hp":400,"team":"B","users":"BOT"}]}}
+const MOCK = {"subject":"turnbased-state","body":{"id":55546,"currentTurn":null,"isGameOver":false,"isBotGame":true,"gameAssets":[{"assetId":2099526508971,"position":"D1","speed":80,"hp":400,"team":"B","users":"BOT"},{"assetId":2099526508973,"position":"C1","speed":60,"hp":400,"team":"B","users":"BOT"},{"assetId":2099526508972,"position":"D2","speed":70,"hp":400,"team":"A","users":"bluealiszzzz"},{"assetId":2099526508974,"position":"C2","speed":50,"hp":400,"team":"A","users":"bluealiszzzz"},{"assetId":2099528452868,"position":"B1","speed":40,"hp":400,"team":"B","users":"BOT"},{"assetId":2099528452869,"position":"B2","speed":30,"hp":400,"team":"A","users":"bluealiszzzz"},{"assetId":2099528452871,"position":"A2","speed":10,"hp":400,"team":"A","users":"bluealiszzzz"},{"assetId":2099528452870,"position":"A1","speed":20,"hp":400,"team":"B","users":"BOT"}]}}
 const turnStateMock = {"subject":"turnbased-turn-state","body":{"2099528452870":30,"2099528452871":15,"2099528452868":60,"2099526508971":0,"2099528452869":45,"2099526508972":0,"2099526508973":85,"2099526508974":70}}
 let testTurnState = {"body" : ""}
 let testState = {"subject" : "wait"}
@@ -20,14 +21,16 @@ let attackPosition = ''
 
 let turnStateSort = [];
 
-for (var id in turnStateMock.body) {
-    turnStateSort.push([id, turnStateMock.body[id]]);
-}
-turnStateSort.sort(function(a, b) {
-    return a[1] - b[1];
-});
+// for (var id in turnStateMock.body) {
+//     turnStateSort.push([id, turnStateMock.body[id]]);
+// }
+// turnStateSort.sort(function(a, b) {
+//     return a[1] - b[1];
+// });
 
-console.log(turnStateSort[1][1])
+// console.log(turnStateSort[1][1])
+
+
 
 // GAME CLASSES
 class Game {
@@ -35,6 +38,7 @@ class Game {
 		this.startSceneElem = document.getElementById(GAME_SCENE.start)
 		this.setGameSceneElem = document.getElementById(GAME_SCENE.set)
 		this.attackSceneElem = document.getElementById(GAME_SCENE.attack)
+		this.endSceneElem = document.getElementById(GAME_SCENE.end)
 
 		// this.scene = GAME_SCENE.start
 		this.scene = GAME_SCENE.start
@@ -52,16 +56,25 @@ class Game {
 				this.startSceneElem.classList.add('hidden')
 				this.setGameSceneElem.classList.remove('hidden')
 				this.attackSceneElem.classList.add('hidden')
+				this.endSceneElem.classList.add('hidden')
 				break;
 			case GAME_SCENE.attack:
 				this.startSceneElem.classList.add('hidden')
 				this.setGameSceneElem.classList.add('hidden')
 				this.attackSceneElem.classList.remove('hidden')
+				this.endSceneElem.classList.add('hidden')
+				break;
+			case GAME_SCENE.end:
+				this.startSceneElem.classList.add('hidden')
+				this.setGameSceneElem.classList.add('hidden')
+				this.attackSceneElem.classList.add('hidden')
+				this.endSceneElem.classList.remove('hidden')
 				break;
 			default:
 				this.startSceneElem.classList.remove('hidden')
 				this.setGameSceneElem.classList.add('hidden')
 				this.attackSceneElem.classList.add('hidden')
+				this.endSceneElem.classList.add('hidden')
 				break;
 		}
 	}
@@ -172,6 +185,11 @@ class Game {
 		robotsAreaElem.innerHTML = allTemplate
 	}
 
+	renderWinner(win) {
+		const winner = document.getElementById('winner')
+		winner.innerHTML = 'team ' + win
+	}
+
 	selectPosition(position ='XX') {
 			console.log(position)
 			attackPosition = position;
@@ -203,6 +221,12 @@ class Game {
 				// showGreeting(JSON.parse(greeting.body).payload);
 				console.log(JSON.parse(JSON.parse(greeting.body).payload));
 				//switch(obj.type)
+
+				if(obj.isGameOver){
+					console.log(obj.isGameOver)
+					this.renderWinner(obj.winner)
+					this.nextScene(GAME_SCENE.end)
+				}
 
 				switch (obj.subject) {
 					case STATE.state:
