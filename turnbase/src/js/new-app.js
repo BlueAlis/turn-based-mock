@@ -1,4 +1,4 @@
-const TOKEN = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJqd3RcIjpcIlwiLFwiYXV0aHNcIjpbXCJ1c2VyXCJdLFwid2F4QWRkcmVzc1wiOlwiYmx1ZWFsaXN6enp6XCJ9IiwiZXhwIjoxNjUxNTI4ODY0LCJpYXQiOjE2NTE1MTA4NjR9.BhpUfCUMhHqFF2RIIkkex4L9vHjxzsb6uqSYF6fO6dl1BR_I9fnrmcS7gw23IrOxDaWvLTdXbxPVlT09cmzoQQ"
+const TOKEN = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJqd3RcIjpcIlwiLFwiYXV0aHNcIjpbXCJ1c2VyXCJdLFwid2F4QWRkcmVzc1wiOlwiYmx1ZWFsaXN6enp6XCJ9IiwiZXhwIjoxNjUxNTY5MDA0LCJpYXQiOjE2NTE1NTEwMDR9.rjDjYeZrk2UWqDw5EHe1BUaX4c3fxp9pinVVhqKeCEF3llLF-Oe-2qE95UZIHvU2WsoUHtvxF8T9qr_gr3oFQQ"
 const GAME_SCENE = {
 	start: 'startScene',
 	set: 'setGameScene',
@@ -28,7 +28,7 @@ let turnStateSort = [];
 //     return a[1] - b[1];
 // });
 
-// console.log(turnStateSort[1][1])
+//console.log(turnStateSort[1][1])
 
 
 
@@ -141,18 +141,33 @@ class Game {
 
 	
 
-	renderTemplateRobot(position = 'XX', assetId = 'XX', hp = 'XX') {
-		return `<div class="bg-gray-100 text-black p-3 rounded" ${attackPosition == position && `style="background:red"` } onclick="game.selectPosition('${position}')">
+	renderTemplateRobot(position = 'XX', assetId = 'XX', hp = 'XX' ,color = 'XX') {
+		let bg = ''
+		let id = ''
+
+		// if(turnStateSort[1][0] == undefined){
+		// 	//id = turnStateSort[1][0]
+		// 	console.log('yes')
+		// }
+		// console.log(id)
+		
+
+		if(assetId == playerAssetId){
+			console.log('this')
+			bg = 'border-4 border-yellow-400 border-opacity-100'
+		}
+		return `<div class="${color} text-black p-3 rounded ${bg}" ${attackPosition == position && `style="background:red"` } onclick="game.selectPosition('${position}')">
 			<p><strong>Position :</strong> ${position}</p>
 			<p><strong>AssetId :</strong>: ${assetId}</p>
 			<p><strong>HP :</strong>: ${hp}</p>
 		</div>`
 	}
 
-	renderTemplateRobotTurn(id,turn){
+	renderTemplateRobotTurn(id,turn,position){
 		return `
 		<div class="flex flex-col items-center justify-start flex-1 bg-gray-100 text-black rounded-xl">
-			<p> ${turn} </p>
+			<p> turn ${turn} </p>
+			<p> position ${position}</p>
 			<p> ${id} </p>
 	  	</div>`
 	}
@@ -160,9 +175,17 @@ class Game {
 	renderTurnState() {
 		const robotTurnState = document.getElementById('turnState')
 		let allTemplate = ``
-
+		let position = ''
 		turnStateSort.forEach((id,turn) => {
-			allTemplate += this.renderTemplateRobotTurn(id,turn)
+			testState.body.gameAssets.forEach((idAsset) => {
+				// console.log(idAsset.assetId)
+				// console.log(id[0])
+				// console.log(idAsset.position)
+				if(idAsset.assetId == id[0]){
+					position = idAsset.position;
+				}
+			})
+			allTemplate += this.renderTemplateRobotTurn(id[0],turn,position)
 		})
 		robotTurnState.innerHTML = allTemplate
 	}
@@ -176,7 +199,13 @@ class Game {
 		_.map(_.groupBy(gameAssets, 'team'), (val, key) => {
 			let robots = ``
 			_.sortBy(val, 'position').forEach((item) => {
-				robots += this.renderTemplateRobot(item.position, item.assetId, item.hp)
+				let color = ''
+				if(key === 'A'){
+					 color = 'bg-green-200'
+				}else{
+					color = 'bg-indigo-300'
+				}
+				robots += this.renderTemplateRobot(item.position, item.assetId, item.hp, color)
 			})
 			
 			allTemplate += this.renderTemplateContainer(key === 'A' ? 'Player' : 'Bot', robots)	
