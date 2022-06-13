@@ -17,19 +17,19 @@ function setConnected(connected) {
 
 async function connect() {
 
-    room = await axios.post('http://localhost:8081/api/game/create-new-game/1', {}, { headers })
+    //room = await axios.post('http://localhost:8081/api/game/create-new-game/1', {}, { headers })
 
-    var socket = new SockJS('http://127.0.0.1:8081/api/socket/');
+    var socket = new SockJS('https://api.krypton.cards/api/socket/');
     //https://api.krypton.cards/api/socket/
     //http://localhost:8081/api/socket/
-    // stompClient = Stomp.over(socket);
-    // stompClient.connect({}, function (frame) {
-    //     setConnected(true);
-    //     console.log('Connected: ' + frame);
-    //     stompClient.subscribe(`/topic/user/${room.data}`, function (greeting) {
-    //         showGreeting(JSON.parse(greeting.body).payload);
-    //     });
-    // });
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        setConnected(true);
+        console.log('Connected: ' + frame);
+        stompClient.subscribe(`/topic/user/chaosssteam5`, function (greeting) {
+            showGreeting(JSON.parse(greeting.body).payload);
+        });
+    });
 }
 
 function disconnect() {

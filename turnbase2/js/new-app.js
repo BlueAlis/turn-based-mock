@@ -119,13 +119,18 @@ class Game {
 			//const attackPosition = form.get('attackPosition')
 	
 			try {
-				await axios.post('http://localhost:8081/game/action', {
+				// await axios.post('http://localhost:8081/game/action', {
+				// 	assetId: playerAssetId,
+				// 	position: attackPosition,
+				// 	gameId: this.room
+				// }, {
+				// 	headers: {Authorization: TOKEN}
+				// })
+				await this.stompClient.send('/app/action',{},JSON.stringify({
 					assetId: playerAssetId,
 					position: attackPosition,
 					gameId: this.room
-				}, {
-					headers: {Authorization: TOKEN}
-				})
+				}))
 			} catch (err) {
 				console.log(`ATTACK GAME ERROR`, err)
 			}
